@@ -2,7 +2,7 @@ const mongoose = require('../db/connections')
 
 const UserSchema = new mongoose.Schema({
     name: String,
-    url: String
+    email: String
 })
 
 const User = mongoose.model('User', UserSchema)

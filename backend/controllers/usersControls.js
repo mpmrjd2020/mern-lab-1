@@ -3,8 +3,19 @@ const router = express.Router()
 const User = require('../models/Users')
 
 router.get('/', (req, res) => {
-    res.send('Users GET route is working!')
-    // User.find({}).then(users => res.json(users))
+    User.find({}).then(users => res.json(users))
   })
+
+// router.get('/:_id', (req, res) => {
+//     console.log(req.params)
+//     User.findById(req.params._id)
+//     .then(user => res.json(user))
+// })
+
+// router.post('/', (req, res) => {
+//     console.log(req.body)
+//     User.create(req.body)
+//     .then(user => res.json(user))
+// })
 
 module.exports = router
