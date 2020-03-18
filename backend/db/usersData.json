@@ -1,0 +1,22 @@
+[
+    {
+        "name": "John Doe",
+        "email": "jdoe@gmail.com"
+    },
+    {
+        "name": "Keith Smith",
+        "email": "ksmith@gmail.com"
+    },
+    {
+        "name": "April Wright",
+        "email": "awright@gmail.com"
+    },
+    { 
+        "name": "Diesel", 
+        "email": "diesel@dog.com" 
+    }, 
+	{ 
+        "name": "Schmitty",	
+        "email": "schmitty@schmit.com" 
+    }
+]
