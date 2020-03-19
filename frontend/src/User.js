@@ -2,8 +2,8 @@ import React from 'react'
 
 const User = props => (
     <div>
-        <h4>{props.user.name}</h4>
-        <p>{props.user.email}</p>
+        <p>{props.user.name}</p>
+        <button id={props.user._id} onClick={props.handleDelete}>Delete {props.user.name}</button>
     </div>
 )
 

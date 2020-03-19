@@ -1,8 +1,14 @@
 import React, {Component} from 'react'
 import './App.css'
+
 import axios from 'axios'
+import { Route, Link, Redirect, Switch, withRouter } from 'react-router-dom'
+
+import Users from './Users'
 import User from './User'
+// import UserDetail from './UserDetail'
 import NewUserForm from './NewUserForm'
+
 const backendURL = 'http://localhost:8080/api/users'
 
 class App extends React.Component {
@@ -53,20 +59,52 @@ class App extends React.Component {
     })
   }
 
+  deleteAxiosUser = event => {
+    event.preventDefault()
+
+    axios({
+      method: 'DELETE',
+      url: `${backendURL}${event.target.id}`
+    })
+    .then(deletedUser => {
+      this.getUsersAxios()
+    })
+  }
+
   render () {
     console.log(this.state)
 
     let allUsers = this.state.users.map(user =>{
-      return <User key={user._id} user={user}/>
+      return <User key={user._id} user={user} handleDelete={this.deleteAxiosUser}/>
     })
 
     return(
-      <div className="App">
-        <NewUserForm
-          handleChange={this.handleChange}
-          handleSubmit={this.handleSubmit}
-        />
-        {allUsers}
+      <div className='App'>
+        <nav>
+          <Link to='/users'>All Users</Link>
+          <Link to='/new-user-form'>New User Form</Link>
+        </nav>
+        <Switch>
+            <Route exact path='/new-user-form' render={(
+              <NewUserForm
+                handleChange={this.handleChange}
+                handleSubmit={this.handleSubmit}
+              />
+            )}
+            />
+            <Route
+              path='/users'
+              render={routerProps => (
+                <Users
+                  {...routerProps}
+                  users={this.state.users}
+                  handleDelete={this.deleteAxiosUser}
+                />
+              )}
+              />
+              <Route path='/*' render={() => <Redirect to='/' />} />
+        {/* {allUsers} */}
+        </Switch>
       </div>
     )
   }
