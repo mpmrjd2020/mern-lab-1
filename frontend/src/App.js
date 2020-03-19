@@ -6,10 +6,10 @@ import { Route, Link, Redirect, Switch, withRouter } from 'react-router-dom'
 
 import Users from './Users'
 import User from './User'
-// import UserDetail from './UserDetail'
+import UserDetail from './UserDetails'
 import NewUserForm from './NewUserForm'
 
-const backendURL = 'http://localhost:8080/api/users'
+const backendURL = 'http://localhost:8080/api/users/'
 
 class App extends React.Component {
   constructor(props) {
@@ -45,6 +45,7 @@ class App extends React.Component {
       this.setState(prevState => ({
         users: [...prevState.users, newUser.data]
       }))
+      this.props.history.push("/")
     })
   }
 
@@ -74,9 +75,9 @@ class App extends React.Component {
   render () {
     console.log(this.state)
 
-    let allUsers = this.state.users.map(user =>{
-      return <User key={user._id} user={user} handleDelete={this.deleteAxiosUser}/>
-    })
+    // let allUsers = this.state.users.map(user =>{
+    //   return <User key={user._id} user={user} handleDelete={this.deleteAxiosUser}/>
+    // })
 
     return(
       <div className='App'>
@@ -85,24 +86,26 @@ class App extends React.Component {
           <Link to='/new-user-form'>New User Form</Link>
         </nav>
         <Switch>
-            <Route exact path='/new-user-form' render={(
-              <NewUserForm
-                handleChange={this.handleChange}
-                handleSubmit={this.handleSubmit}
-              />
-            )}
-            />
             <Route
-              path='/users'
+              exact path='/' 
               render={routerProps => (
-                <Users
-                  {...routerProps}
-                  users={this.state.users}
-                  handleDelete={this.deleteAxiosUser}
+                <Users users={this.state.users} handleDelete={this.deleteAxiosUser}
                 />
               )}
+            />
+            <Route
+              exact path='/users/:id'
+              render={routerProps => <UserDetail {...routerProps} users={this.state.users} />}
               />
-              <Route path='/*' render={() => <Redirect to='/' />} />
+            <Route path='/new-user-form' 
+              render={() => (
+                <NewUserForm
+                  handleChange={this.handleChange}
+                  handleSubmit={this.handleSubmit}
+                />
+            )}
+            />              
+            <Route path='/*' render={() => <Redirect to='/' />} />
         {/* {allUsers} */}
         </Switch>
       </div>
@@ -110,4 +113,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default withRouter(App);
